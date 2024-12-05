@@ -1,11 +1,14 @@
 {
-    "name": "curator-ai",
-    "workspaces": [
-        "website",
-        "curator"
-    ],
-    "scripts": {
-        "build": "npm run build --workspaces",
-        "format": "prettier --write ."
-    }
+  "name": "curator-ai",
+  "workspaces": [
+    "website",
+    "curator"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "supabase": "^2.0.0"
+  }
 }
