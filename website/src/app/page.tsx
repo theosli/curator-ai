@@ -5,6 +5,7 @@ import { Header } from '@/components/Header'
 import { Introduction } from '@/components/Introduction'
 import { PersonalizedSection } from '@/components/PersonalizedSection'
 import { WhySection } from '@/components/WhySection'
+import { Testimonials } from '@/components/Testimonials'
 import '@/i18n';  // Import the i18n configuration
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <Introduction />
       <PersonalizedSection />
       <WhySection />
+      <Testimonials />
       <Footer />
     </>
   )
