@@ -8,96 +8,8 @@ import {
   ExpandableItems,
 } from '@/components/Expandable'
 import kookaburra from '@/images/kookaburra.png'
+import { useTranslation } from 'react-i18next';
 
-const testimonials = [
-  [
-    {
-      content:
-        'Never have I been so much up to date with my newsletters.',
-      author: {
-        name: 'Antonio Littel',
-        role: 'Frontend Developer',
-        image: kookaburra,
-      },
-    },
-    {
-      content:
-        'Simple. Clear. Best tool for my daily dose of information.',
-      author: {
-        name: 'Lynn Nolan',
-        role: 'Growth Marketer',
-        image: kookaburra,
-      },
-    },
-    {
-      content:
-        'I love the simplicity of the design. It’s easy to navigate and it’s easy to find what I’m looking for.',
-      author: {
-        name: 'Krista Prosacco',
-        role: 'Professional Designer',
-        image: kookaburra,
-      },
-    },
-  ],
-  [
-    {
-      content:
-        'What a way to find every newsletter I need in one place. I love it!',
-      author: {
-        name: 'Cameron Considine',
-        role: 'Entrepreneur',
-        image: kookaburra,
-      },
-    },
-    {
-      content:
-        'I’m so glad I found this. I’ve been looking for a way to keep up with all the newsletters I subscribe to and this is perfect.',
-      author: {
-        name: 'Regina Wisoky',
-        role: 'Design Student',
-        image: kookaburra,
-      },
-    },
-    {
-      content:
-        'Curator AI was really the missing piece in my workflow. I can’t believe how much time I was wasting before I found this.',
-      author: {
-        name: 'Vernon Cummerata',
-        role: 'UI Engineer',
-        image: kookaburra,
-      },
-    },
-  ],
-  [
-    {
-      content:
-        'I’ve been using Curator AI for a few weeks now and I can’t imagine my life without it. It’s so easy to use and it’s so helpful.',
-      author: {
-        name: 'Steven Hackett',
-        role: 'Bootcamp Instructor',
-        image: kookaburra,
-      },
-    },
-    {
-      content:
-        'Best discovery of my year so far. I love Curator AI.',
-      author: {
-        name: 'Carla Schoen',
-        role: 'Startup Founder',
-        image: kookaburra,
-      },
-    },
-    {
-      content:
-        'All I can say is wow — Curator AI is amazing.',
-      author: {
-        name: 'Leah Kiehn',
-        role: 'Creative Director',
-        image: kookaburra,
-      },
-    },
-  ],
-]
 
 function Testimonial({
   author,
@@ -135,16 +47,96 @@ function Testimonial({
 }
 
 export function Testimonials() {
+  const { t } = useTranslation();
+
+  const testimonials = [
+    [
+      {
+        content: t('person1.testimonial'),
+        author: {
+          name: t('person1.name'),
+          role: t('person1.role'),
+          image: kookaburra,
+        },
+      },
+      {
+        content: t('person2.testimonial'),
+        author: {
+          name: t('person2.name'),
+          role: t('person2.role'),
+          image: kookaburra,
+        },
+      },
+      {
+        content: t('person3.testimonial'),
+        author: {
+          name: t('person3.name'),
+          role: t('person3.role'),
+          image: kookaburra,
+        },
+      }
+    ],
+    [
+      {
+        content: t('person4.testimonial'),
+        author : {
+          name: t('person4.name'),
+          role: t('person4.role'),
+          image: kookaburra,
+        },
+      },
+      {
+        content: t('person5.testimonial'),
+        author : {
+          name: t('person5.name'),
+          role: t('person5.role'),
+          image: kookaburra,
+        },
+      },
+      {
+        content: t('person6.testimonial'),
+        author : {
+          name: t('person6.name'),
+          role: t('person6.role'),
+          image: kookaburra,
+        },
+      }
+    ],
+    [
+      {
+        content: t('person7.testimonial'),
+        author : {
+          name: t('person7.name'),
+          role: t('person7.role'),
+          image: kookaburra,
+        },
+      },
+      {
+        content: t('person8.testimonial'),
+        author : {
+          name: t('person8.name'),
+          role: t('person8.role'),
+          image: kookaburra,
+        },
+      },
+      {
+        content: t('person9.testimonial'),
+        author : {
+          name: t('person9.name'),
+          role: t('person9.role'),
+          image: kookaburra,
+        },
+      },
+    ],
+  ]
   return (
     <section className="py-8 sm:py-10 lg:py-16">
       <Container className="text-center">
         <h2 className="font-display text-4xl font-bold tracking-tight text-slate-900">
-          Some kind words from our users...
+        {t('testimonialTitle')}
         </h2>
         <p className="mt-4 text-lg tracking-tight text-slate-600">
-            We discussed and experimented with different people to make subscribe
-            the tool we were crafting was exactly what they needed. Here are some
-            of the testimonials we received from them.
+        {t('testimonialSubtitle')}            
         </p>
       </Container>
       <Expandable className="group mt-16">
@@ -187,7 +179,7 @@ export function Testimonials() {
             </li>
           ))}
         </ul>
-        <ExpandableButton>Read more testimonials</ExpandableButton>
+        <ExpandableButton>{t('readMoreTestimonials')}</ExpandableButton>
       </Expandable>
     </section>
   )

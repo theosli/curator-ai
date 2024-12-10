@@ -1,0 +1,50 @@
+{
+    "testimonialTitle": "Some kind words from our users...",
+    "testimonialSubtitle": "We discussed and experimented with different people to make subscribe the tool we were crafting was exactly what they needed. Here are some of the testimonials we received from them.",
+    "readMoreTestimonials": "Read more testimonials",
+    "person1": {
+        "name": "John Doe",
+        "testimonial": "Never have I been so much up to date with my newsletters.",
+        "role" : "Frontend Developer"
+    },
+    "person2": {
+        "name": "Lynn Nolan",
+        "testimonial": "Simple. Clear. Best tool for my daily dose of information.",
+        "role" : "Growth Marketer"
+    },
+    "person3": {
+        "name": "Krista Prosacco",
+        "testimonial": "I love the simplicity of the design. It’s easy to navigate and it’s easy to find what I’m looking for.",
+        "role" : "Professional Designer"
+    },
+    "person4": {
+        "name": "Cameron Considine",
+        "testimonial": "What a way to find every newsletter I need in one place. I love it!",
+        "role" : "Entrepreneur"
+    },
+    "person5": {
+        "name": "Regina Wisoky",
+        "testimonial": "I’m so glad I found this. I’ve been looking for a way to keep up with all the newsletters I subscribe to and this is perfect.",
+        "role" : "Design Student"
+    },
+    "person6": {
+        "name": "Vernon Cummerata",
+        "testimonial": "Curator AI was really the missing piece in my workflow. I can’t believe how much time I was wasting before I found this.",
+        "role" : "UI Engineer"
+    },
+    "person7": {
+        "name": "Steven Hackett",
+        "testimonial": "I’ve been using Curator AI for a few weeks now and I can’t imagine my life without it. It’s so easy to use and it’s so helpful.",
+        "role" : "Bootcamp Instructor"
+    },
+    "person8": {
+        "name": "Carla Schoen",
+        "testimonial": "Best discovery of my year so far. I love Curator AI.",
+        "role" : "Startup Founder"
+    },
+    "person9": {
+        "name": "Leah Kiehn",
+        "testimonial": "All I can say is wow — Curator AI is amazing.",
+        "role" : "Creative Director"
+    }
+}

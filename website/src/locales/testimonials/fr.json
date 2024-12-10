@@ -1,0 +1,50 @@
+{
+    "testimonialTitle": "Quelques mots gentils de nos utilisateurs...",
+    "testimonialSubtitle": "Nous avons discuté et expérimenté avec différentes personnes pour nous assurer que l'outil que nous étions en train de créer correspondait exactement à leurs besoins. Voici quelques-uns des témoignages que nous avons reçus d'eux.",
+    "readMoreTestimonials": "Lire plus de témoignages",
+    "person1": {
+        "name": "John Doe",
+        "testimonial": "Jamais je n'ai été autant à jour avec mes newsletters.",
+        "role": "Développeur Frontend"
+    },
+    "person2": {
+        "name": "Lynn Nolan",
+        "testimonial": "Simple. Clair. Le meilleur outil pour ma dose quotidienne d'informations.",
+        "role": "Responsable de la croissance"
+    },
+    "person3": {
+        "name": "Krista Prosacco",
+        "testimonial": "J'adore la simplicité du design. C'est facile à naviguer et c'est facile de trouver ce que je cherche.",
+        "role": "Designer professionnel"
+    },
+    "person4": {
+        "name": "Cameron Considine",
+        "testimonial": "Quelle façon de trouver toutes les newsletters dont j'ai besoin en un seul endroit. J'adore ça!",
+        "role": "Entrepreneur"
+    },
+    "person5": {
+        "name": "Regina Wisoky",
+        "testimonial": "Je suis tellement contente d'avoir trouvé ça. Je cherchais un moyen de suivre toutes les newsletters auxquelles je suis abonnée et c'est parfait.",
+        "role": "Étudiante en design"
+    },
+    "person6": {
+        "name": "Vernon Cummerata",
+        "testimonial": "Curator AI était vraiment la pièce manquante dans mon flux de travail. Je ne peux pas croire combien de temps je perdais avant de trouver ça.",
+        "role": "Ingénieur UI"
+    },
+    "person7": {
+        "name": "Steven Hackett",
+        "testimonial": "J'utilise Curator AI depuis quelques semaines maintenant et je ne peux pas imaginer ma vie sans ça. C'est tellement facile à utiliser et c'est tellement utile.",
+        "role": "Instructeur de bootcamp"
+    },
+    "person8": {
+        "name": "Carla Schoen",
+        "testimonial": "La meilleure découverte de mon année jusqu'à présent. J'adore Curator AI.",
+        "role": "Fondatrice de startup"
+    },
+    "person9": {
+        "name": "Leah Kiehn",
+        "testimonial": "Tout ce que je peux dire, c'est wow — Curator AI est incroyable.",
+        "role": "Directrice créative"
+    }
+}
