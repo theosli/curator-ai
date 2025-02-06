@@ -3,13 +3,6 @@ import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 import { Summary } from '../types';
 
-const defaultLinks = [
-    'https://www.fromjason.xyz/p/notebook/where-have-all-the-websites-gone/',
-    'https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/',
-    'https://biomejs.dev/blog/biome-v1-5/',
-    'https://birtles.blog/2024/01/06/weird-things-engineers-believe-about-development/',
-    'https://julesblom.com/writing/flushsync',
-];
 const window = new JSDOM('').window;
 const purify = DOMPurify(window);
 
@@ -70,14 +63,14 @@ function formatNewsletterHtmlWithCSS(articles: Summary[]) {
 
 // TODO : add parameters based on user (links,interests?,maxArticles?,maxContentSize?)
 
-export async function curateAndGenerateNewsletter(mail: string): Promise<{
+export async function curateAndGenerateNewsletter(links : string[], interests : string[]): Promise<{
     markdown: string;
     html: string;
 }> {
 
     return curate({
-        links: defaultLinks,
-        interests: ['react', 'ai'],
+        links,
+        interests,
         max: 5,
     })
         .then((curatedLinks: Summary[]) => {

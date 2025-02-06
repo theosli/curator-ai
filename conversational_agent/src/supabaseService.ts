@@ -11,7 +11,7 @@ const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-enum ColumnName {
+export enum ColumnName {
     THEMES = 'themes',
     UNWANTED_THEMES = 'unwanted_themes',
     SOURCES = 'sources',
