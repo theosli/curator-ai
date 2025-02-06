@@ -28,7 +28,7 @@ export async function runNewsletter(email:string, links: string[], interests: st
     const client = new ServerClient(process.env.POSTMARK_API_KEY as string);
 
     client.sendEmail({
-        From: email,
+        From: process.env.DEFAULT_POSTMARK_MAIL,
         To: email,
         Subject: 'Your weekly newsletter',
         HtmlBody: html,
