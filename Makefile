@@ -26,9 +26,11 @@ build_webpage: start_supabase ## Build the webpage
 run_webpage: ## Run the webpage localy
 	npm --workspace website run start
 	
-send_mail: ## Send newsletter mail
-	cp -n .env.sample .env
-	npx ts-node curator/src/mail_agent/newsletterScript.ts
+send_newsletter: ## Send newsletter mail
+	npm --workspace curator-ai run send_newsletter
+
+print_newsletter: ## Send newsletter mail
+	npm --workspace curator-ai run print_newsletter
 	
 build: start_supabase ## Compile the project
 	npm run build

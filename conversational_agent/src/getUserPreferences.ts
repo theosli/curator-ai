@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import dotenv from 'dotenv';
 import { OpenAI } from 'openai';
-import { addPreferences } from './savePreferences';
+import { addPreferences } from './supabaseService';
 
 dotenv.config({ path: './../.env' });
 

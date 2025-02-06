@@ -3,7 +3,8 @@
     "workspaces": [
         "website",
         "curator",
-        "conversational_agent"
+        "conversational_agent",
+        "curator-ai"
     ],
     "scripts": {
         "build": "npm run build --workspaces",

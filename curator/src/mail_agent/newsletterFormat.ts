@@ -3,7 +3,7 @@ import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 import { Summary } from '../types';
 
-const links = [
+const defaultLinks = [
     'https://www.fromjason.xyz/p/notebook/where-have-all-the-websites-gone/',
     'https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/',
     'https://biomejs.dev/blog/biome-v1-5/',
@@ -70,12 +70,13 @@ function formatNewsletterHtmlWithCSS(articles: Summary[]) {
 
 // TODO : add parameters based on user (links,interests?,maxArticles?,maxContentSize?)
 
-export async function curateAndGenerateNewsletter(): Promise<{
+export async function curateAndGenerateNewsletter(mail: string): Promise<{
     markdown: string;
     html: string;
 }> {
+
     return curate({
-        links,
+        links: defaultLinks,
         interests: ['react', 'ai'],
         max: 5,
     })
