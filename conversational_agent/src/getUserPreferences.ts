@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import dotenv from 'dotenv';
 import { OpenAI } from 'openai';
-import { addSources, addThemes } from './savePreferences';
+import { addPreferences } from './savePreferences';
 
 dotenv.config({ path: './../.env' });
 
@@ -55,22 +55,13 @@ Ensure no duplicate entries in either "sources" or "unwanted_sources".
 
     const preferencesCompletion = completion.choices[0].message.parsed;
 
-    if (
-        !(
-            (await addThemes(
-                preferencesCompletion?.themes || [],
-                preferencesCompletion?.unwantedThemes || [],
-                userMail
-            )) &&
-            (await addSources(
-                preferencesCompletion?.sources || [],
-                preferencesCompletion?.unwantedSources || [],
-                userMail
-            ))
-        )
-    ) {
-        return null;
-    }
+    await addPreferences(
+        preferencesCompletion?.themes || [],
+        preferencesCompletion?.unwantedThemes || [],
+        preferencesCompletion?.sources || [],
+        preferencesCompletion?.unwantedSources || [],
+        userMail
+    );
 
     return preferencesCompletion;
 }
