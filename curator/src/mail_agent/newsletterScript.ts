@@ -13,16 +13,11 @@ const defaultLinks = [
 ];
 const defaultInterests = ['react', 'ai'];
 
-const sendMail = false;
-
-//runNewsletter("default@mail.com",defaultLinks, defaultInterests);
-
-
 // Calls the curateAndGenerateNewsletter function with right parameters then sends the mail
 // TODO : Add all the dynamic part (newsletter parameters, email params)
 
 export async function runNewsletter(email:string, links: string[], interests: string[]) {
-    const { markdown, html } = await curateAndGenerateNewsletter(links || defaultLinks, interests || defaultInterests);
+    const { markdown, html } = await curateAndGenerateNewsletter(links.length > 0 ? links : defaultLinks, interests.length > 0 ? interests : defaultInterests);
     if (!process.env.POSTMARK_API_KEY || !process.env.DEFAULT_POSTMARK_MAIL) {
         throw new Error(
             'Make sure to define POSTMARK_SERVER_API_KEY and POSTMARK_DEFAULT_MAIL if you want to send mail'
@@ -33,7 +28,7 @@ export async function runNewsletter(email:string, links: string[], interests: st
     const client = new ServerClient(process.env.POSTMARK_API_KEY as string);
 
     client.sendEmail({
-        From: mail,
+        From: email,
         To: email,
         Subject: 'Your weekly newsletter',
         HtmlBody: html,
