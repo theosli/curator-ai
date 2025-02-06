@@ -26,11 +26,13 @@ export async function runNewsletter(email:string, links: string[], interests: st
 
     // Sending email :
     const client = new ServerClient(process.env.POSTMARK_API_KEY as string);
+    const defaultInboundEmail = process.env.INBOUND_POSTMARK_MAIL!;
 
     client.sendEmail({
         From: process.env.DEFAULT_POSTMARK_MAIL,
         To: email,
         Subject: 'Your weekly newsletter',
+        ReplyTo: defaultInboundEmail,
         HtmlBody: html,
         TextBody: markdown,
         MessageStream: 'outbound',
