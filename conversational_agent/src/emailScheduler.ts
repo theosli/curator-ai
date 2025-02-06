@@ -2,6 +2,8 @@ import { exec } from 'child_process';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import cron from 'node-cron';
+import { runNewsletter } from 'curator-ai/src/mail_agent/newsletterScript'; 
+import { ColumnName, getColumn } from './savePreferences';
 
 dotenv.config({ path: './../.env' });
 
@@ -57,28 +59,15 @@ async function updateNextNewsletter(userId: number, periodicity: number) {
     }
 }
 
-function sendNewsletter(userEmail: string) {
+async function sendNewsletter(userEmail: string) {
     if (loggingActivated)
         console.log(`📤 Sending newsletter to ${userEmail}...`);
 
-    exec(
-        'ts-node ./conversational_agent/src/hello.ts',
-        (error, stdout, stderr) => {
-            if (error) {
-                console.error(
-                    `❌ Error sending newsletter to ${userEmail}:`,
-                    error.message
-                );
-                return;
-            }
-            if (stderr) {
-                console.error(`⚠️ Stderr for ${userEmail}:`, stderr);
-                return;
-            }
-            if (loggingActivated)
-                console.log(`✅ Newsletter sent to ${userEmail}:`, stdout);
-        }
-    );
+    const themes = await getColumn(userEmail, ColumnName.THEMES);
+    const sources = await getColumn(userEmail, ColumnName.SOURCES);
+
+    runNewsletter(userEmail, sources, themes);
+
 }
 
 async function checkAndSendNewsletters() {
