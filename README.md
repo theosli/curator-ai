@@ -84,6 +84,14 @@ Go to your [Postmark](https://postmarkapp.com/) server, and :
 Now you can send an email to the inbound address (in the inbound settings).
 This will return a list of preferences.
 
+## Run the scheduler that will send the newsletters to all subscribers
+
+```sh
+make start_newsletter
+```
+
+This will test each minutes if someone need to recieve his next newsletter. If yes, a newsletter is sent.
+
 ## CLI Usage
 
 ```sh

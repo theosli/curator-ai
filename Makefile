@@ -65,3 +65,6 @@ start_supabase:
 
 stop_supabase:
 	npx supabase stop
+
+start_newsletter:
+	npx ts-node conversational_agent/src/emailScheduler.ts
