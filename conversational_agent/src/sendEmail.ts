@@ -35,7 +35,10 @@ const buildResponse = async (body: MailBody) => {
     const purify = DOMPurify(window);
 
     // Generate a response from AI based on the received email text
-    const aiResponseMail = getAiResponseMail(body['From'], body['TextBody']);
+    const aiResponseMail = await getAiResponseMail(
+        body['From'],
+        body['TextBody']
+    );
 
     return `
         ${aiResponseMail}
@@ -50,7 +53,7 @@ const buildResponse = async (body: MailBody) => {
         Subject: ${purify.sanitize(body['Subject'])}
         
         ${purify.sanitize(body['TextBody'])}
-    `
+    `;
 };
 
 /**

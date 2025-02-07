@@ -64,7 +64,10 @@ Ensure no duplicate entries in either "sources" or "unwanted_sources".
     const window = new JSDOM('').window;
     const purify = DOMPurify(window);
 
-    if (!preferencesCompletion?.themes?.length && !preferencesCompletion?.unwantedThemes?.length) {
+    if (
+        !preferencesCompletion?.themes?.length &&
+        !preferencesCompletion?.unwantedThemes?.length
+    ) {
         return `Sorry, we didn't find any preferences in your E-Mail.`;
     }
 
@@ -77,5 +80,4 @@ ${preferencesCompletion?.sources?.length ? `The following ${purify.sanitize(pref
 
 ${preferencesCompletion?.unwantedSources?.length ? `You won't have the following ${purify.sanitize(preferencesCompletion?.sources.length == 1 ? 'source' : 'sources')} anymore:\n- ${preferencesCompletion.unwantedSources.join('\n- ')}` : ''}
 `;
-
 }

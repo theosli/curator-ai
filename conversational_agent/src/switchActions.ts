@@ -19,10 +19,7 @@ const MailExtraction = z.object({
     mailBody: z.string(),
 });
 
-export async function getAiResponseMail(
-    userMail: string,
-    userMessage: string
-) {
+export async function getAiResponseMail(userMail: string, userMessage: string) {
     // Get the action name from the user message
     // possible actions are "change preferences" and "get preferences"
     const completion = await openai.beta.chat.completions.parse({
@@ -42,8 +39,7 @@ export async function getAiResponseMail(
 
     const actionCompletion = completion.choices[0].message.parsed;
 
-    if (!actionCompletion) 
-        throw new Error('No action name found');
+    if (!actionCompletion) throw new Error('No action name found');
 
     switch (actionCompletion.actionName) {
         case 'change preferences':
@@ -52,14 +48,20 @@ export async function getAiResponseMail(
             return await summarizePreferences(userMail);
         default:
             return null;
-    }    
+    }
 }
 
 export async function summarizePreferences(userMail: string) {
     const themes = await getColumn(userMail, ColumnName.THEMES);
-    const unwantedThemes = await getColumn(userMail, ColumnName.UNWANTED_THEMES);
+    const unwantedThemes = await getColumn(
+        userMail,
+        ColumnName.UNWANTED_THEMES
+    );
     const sources = await getColumn(userMail, ColumnName.SOURCES);
-    const unwantedSources = await getColumn(userMail, ColumnName.UNWANTED_SOURCES);
+    const unwantedSources = await getColumn(
+        userMail,
+        ColumnName.UNWANTED_SOURCES
+    );
 
     const completion = await openai.beta.chat.completions.parse({
         model: 'gpt-4o-mini',
@@ -74,13 +76,12 @@ export async function summarizePreferences(userMail: string) {
                         Unwanted themes: ${unwantedThemes.join(', ')}
                         Sources: ${sources.join(', ')}
                         Unwanted sources: ${unwantedSources.join(', ')}
+                        If there is nothing, just say it.
+                        The message shoud begin with "Hello, here is a summary of you preferences :" and should end by : "If you have any question, I'm here for you".
                 `,
             },
         ],
-        response_format: zodResponseFormat(
-            MailExtraction,
-            'mail_extraction'
-        ),
+        response_format: zodResponseFormat(MailExtraction, 'mail_extraction'),
     });
 
     const textCompletion = completion.choices[0].message.parsed;
