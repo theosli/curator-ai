@@ -63,11 +63,13 @@ function formatNewsletterHtmlWithCSS(articles: Summary[]) {
 
 // TODO : add parameters based on user (links,interests?,maxArticles?,maxContentSize?)
 
-export async function curateAndGenerateNewsletter(links : string[], interests : string[]): Promise<{
+export async function curateAndGenerateNewsletter(
+    links: string[],
+    interests: string[]
+): Promise<{
     markdown: string;
     html: string;
 }> {
-
     return curate({
         links,
         interests,

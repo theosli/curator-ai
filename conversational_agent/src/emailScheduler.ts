@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import cron from 'node-cron';
-import { runNewsletter } from 'curator-ai/src/mail_agent/newsletterScript'; 
+import { runNewsletter } from 'curator-ai/src/mail_agent/newsletterScript';
 import { ColumnName, getColumn } from './supabaseService';
 
 dotenv.config({ path: './../.env' });
@@ -67,7 +67,6 @@ async function sendNewsletter(userEmail: string) {
     const sources = await getColumn(userEmail, ColumnName.SOURCES);
 
     runNewsletter(userEmail, sources, themes);
-
 }
 
 async function checkAndSendNewsletters() {

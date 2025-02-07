@@ -21,7 +21,7 @@
         "supabase": "^2.6.8",
         "ts-node": "^10.9.2",
         "zod": "^3.23.8",
-        "curator" : "*"
+        "curator": "*"
     },
     "devDependencies": {
         "@types/express": "^5.0.0",

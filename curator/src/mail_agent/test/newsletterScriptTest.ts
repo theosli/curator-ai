@@ -1,3 +1,3 @@
-import { runNewsletter } from "./../newsletterScript"
+import { runNewsletter } from './../newsletterScript';
 
 runNewsletter('test@mail.net', [], []);

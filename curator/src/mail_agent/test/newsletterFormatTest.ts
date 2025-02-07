@@ -1,4 +1,4 @@
-import { curateAndGenerateNewsletter } from "../newsletterFormat";
+import { curateAndGenerateNewsletter } from '../newsletterFormat';
 
 const defaultLinks = [
     'https://www.fromjason.xyz/p/notebook/where-have-all-the-websites-gone/',
@@ -10,7 +10,10 @@ const defaultLinks = [
 const defaultInterests = ['react', 'ai'];
 
 (async () => {
-    const { markdown, html } = await curateAndGenerateNewsletter(defaultLinks, defaultInterests);
+    const { markdown, html } = await curateAndGenerateNewsletter(
+        defaultLinks,
+        defaultInterests
+    );
 
     console.log('Here is the current result :');
     console.log(markdown);
