@@ -3,6 +3,8 @@ import { zodResponseFormat } from 'openai/helpers/zod';
 import dotenv from 'dotenv';
 import { OpenAI } from 'openai';
 import { addPreferences } from './savePreferences';
+import { JSDOM } from 'jsdom';
+import DOMPurify from 'dompurify';
 
 dotenv.config({ path: './../.env' });
 
@@ -20,12 +22,7 @@ const PreferenceExtraction = z.object({
 export async function getUserPreferences(
     userMail: string,
     userMessage: string
-): Promise<{
-    themes: string[];
-    unwantedThemes: string[];
-    sources: string[];
-    unwantedSources: string[];
-} | null> {
+): Promise<string | null> {
     const completion = await openai.beta.chat.completions.parse({
         model: 'gpt-4o-mini',
         messages: [
@@ -63,5 +60,22 @@ Ensure no duplicate entries in either "sources" or "unwanted_sources".
         userMail
     );
 
-    return preferencesCompletion;
+    // Generate a mail body to the user
+    const window = new JSDOM('').window;
+    const purify = DOMPurify(window);
+
+    if (!preferencesCompletion?.themes?.length && !preferencesCompletion?.unwantedThemes?.length) {
+        return `Sorry, we didn't find any preferences in your E-Mail.`;
+    }
+
+    return `Hello!
+${preferencesCompletion?.themes?.length ? `The following ${purify.sanitize(preferencesCompletion?.themes.length == 1 ? 'theme' : 'themes')} have been added to your next newsletters:\n- ${preferencesCompletion.themes.join('\n- ')}` : ''}
+
+${preferencesCompletion?.unwantedThemes?.length ? `You won't have the following ${purify.sanitize(preferencesCompletion?.themes.length == 1 ? 'theme' : 'themes')} anymore:\n- ${preferencesCompletion.unwantedThemes.join('\n- ')}` : ''}
+
+${preferencesCompletion?.sources?.length ? `The following ${purify.sanitize(preferencesCompletion?.sources.length == 1 ? 'source' : 'sources')} have been added to your next newsletters:\n- ${preferencesCompletion.sources.join('\n- ')}` : ''}
+
+${preferencesCompletion?.unwantedSources?.length ? `You won't have the following ${purify.sanitize(preferencesCompletion?.sources.length == 1 ? 'source' : 'sources')} anymore:\n- ${preferencesCompletion.unwantedSources.join('\n- ')}` : ''}
+`;
+
 }
