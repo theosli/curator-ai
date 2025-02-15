@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 import { ServerClient } from 'postmark';
-import { getUserPreferences } from './getUserPreferences';
 import { MailBody } from './types';
+import { getAiResponseMail } from './switchActions';
 
 // Load environment variables from the .env file
 dotenv.config({ path: './../.env' });
@@ -30,14 +30,17 @@ export const sendMail = async (body: MailBody) => {
 };
 
 const buildResponse = async (body: MailBody) => {
-    // Generate a response from AI based on the received email text
-    const aiResponse = await getUserPreferences(body['From'], body['TextBody']);
-
     const window = new JSDOM('').window;
     const purify = DOMPurify(window);
 
-    const emailMetadata = `
-        
+    // Generate a response from AI based on the received email text
+    const aiResponseMail = await getAiResponseMail(
+        body['From'],
+        body['TextBody']
+    );
+
+    return `
+        ${aiResponseMail}
         -------- Previous Message --------
         
         From: ${purify.sanitize(body['From'])}
@@ -49,23 +52,7 @@ const buildResponse = async (body: MailBody) => {
         Subject: ${purify.sanitize(body['Subject'])}
         
         ${purify.sanitize(body['TextBody'])}
-    
     `;
-
-    if (!aiResponse?.themes?.length && !aiResponse?.unwantedThemes?.length) {
-        return `Sorry, we didn't find any preferences in your E-Mail. ${emailMetadata}`;
-    }
-
-    return `Hello!
-${aiResponse?.themes?.length ? `The following ${purify.sanitize(aiResponse?.themes.length == 1 ? 'theme' : 'themes')} have been added to your next newsletters:\n- ${aiResponse.themes.join('\n- ')}` : ''}
-
-${aiResponse?.unwantedThemes?.length ? `You won't have the following ${purify.sanitize(aiResponse?.themes.length == 1 ? 'theme' : 'themes')} anymore:\n- ${aiResponse.unwantedThemes.join('\n- ')}` : ''}
-
-${aiResponse?.sources?.length ? `The following ${purify.sanitize(aiResponse?.sources.length == 1 ? 'source' : 'sources')} have been added to your next newsletters:\n- ${aiResponse.sources.join('\n- ')}` : ''}
-
-${aiResponse?.unwantedSources?.length ? `You won't have the following ${purify.sanitize(aiResponse?.sources.length == 1 ? 'source' : 'sources')} anymore:\n- ${aiResponse.unwantedSources.join('\n- ')}` : ''}
-
-${emailMetadata}`;
 };
 
 /**
