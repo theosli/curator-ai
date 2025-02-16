@@ -29,7 +29,7 @@ export const sendMail = async (body: MailBody) => {
     }
 };
 
-const buildResponse = async (body: MailBody) => {
+export const buildResponse = async (body: MailBody) => {
     const window = new JSDOM('').window;
     const purify = DOMPurify(window);
 

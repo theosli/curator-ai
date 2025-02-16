@@ -5,6 +5,8 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { buildResponse } from "conversational_agent/src/sendEmail"
+import { MailBody } from "conversational_agent/src/types"
 
 type Message = {
   sender: "user" | "system"
@@ -35,9 +37,17 @@ export default function EmailSimulator() {
     // Add user message to conversation
     setConversation((prev) => [...prev, { sender: "user", content: userMessage }])
 
+    const body: MailBody = {
+      From: "demo",
+      Subject: "exchange",
+      Date: Date.now().toString(),
+      TextBody: userMessage,
+      To: "user"
+    }
     // Generate and add system response
-    const systemResponse = A(userMessage)
-    setConversation((prev) => [...prev, { sender: "system", content: systemResponse }])
+    buildResponse(body).then((systemResponse) => {
+      setConversation((prev) => [...prev, { sender: "system", content: systemResponse }])
+    })
 
     setUserMessage("")
   }
