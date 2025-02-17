@@ -1,13 +1,11 @@
 'use client';
 
 import type React from 'react';
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea'; // Import the Textarea component
 import { buildResponse } from 'conversational_agent/src/sendEmail';
 import { MailBody } from 'conversational_agent/src/types';
-import { Textarea } from '@/components/ui/textarea';
 
 type Message = {
     sender: 'user' | 'system';
@@ -17,6 +15,7 @@ type Message = {
 export default function EmailSimulator() {
     const [userMessage, setUserMessage] = useState('');
     const [conversation, setConversation] = useState<Message[]>([]);
+    const [isGeneratingResponse, setIsGeneratingResponse] = useState(false); // To track if response is being generated
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,8 +34,12 @@ export default function EmailSimulator() {
             TextBody: userMessage,
             To: 'user',
         };
+
+        setIsGeneratingResponse(true); // Start showing the loading animation
+
         // Generate and add system response
         buildResponse(body).then(systemResponse => {
+            setIsGeneratingResponse(false); // Stop the loading animation
             setConversation(prev => [
                 ...prev,
                 { sender: 'system', content: systemResponse },
@@ -55,16 +58,24 @@ export default function EmailSimulator() {
                         key={index}
                         className={`mb-2 ${message.sender === 'user' ? 'text-right' : 'text-left'}`}
                     >
-                        <span
+                        <div
                             className={`inline-block p-2 rounded-lg ${message.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
-                        
                             dangerouslySetInnerHTML={{ __html: message.content.replace(/\n/g, '<br />') }}
-                            ></span>
+                        />
                     </div>
                 ))}
+                {isGeneratingResponse && (
+                    <div className="text-center mt-4">
+                        <span className="loading-dots">
+                            <span>.</span>
+                            <span>.</span>
+                            <span>.</span>
+                        </span>
+                    </div>
+                )}
             </div>
             <form onSubmit={handleSubmit} className="flex gap-2">
-            <Textarea
+                <Textarea
                     value={userMessage}
                     onChange={e => setUserMessage(e.target.value)}
                     placeholder="Type your message here"
