@@ -28,7 +28,7 @@ export default function EmailSimulator() {
         ]);
 
         const body: MailBody = {
-            From: 'demo',
+            From: 'test@mail.net',
             Subject: 'exchange',
             Date: Date.now().toString(),
             TextBody: userMessage,
@@ -55,7 +55,7 @@ export default function EmailSimulator() {
                         className={`mb-2 ${message.sender === 'user' ? 'text-right' : 'text-left'}`}
                     >
                         <span
-                            className={`inline-block p-2 rounded-lg ${message.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-white'}`}
+                            className={`inline-block p-2 rounded-lg ${message.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
                         >
                             {message.content}
                         </span>
