@@ -1,74 +1,20 @@
 'use server';
 
-import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import cron from 'node-cron';
-import { runNewsletter } from 'curator-ai/src/mail_agent/newsletterScript';
-import { ColumnName, getColumn } from './supabaseService';
+import {
+    getPendingNewsletters,
+    sendNewsletterWithEmail,
+    updateNextNewsletter,
+} from './newsletterMaker';
 
 dotenv.config({ path: './../.env' });
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('❌ Missing Supabase credentials.');
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-const loggingActivated = true; // Set to false to disable logs
+const loggingActivated = true;
 
 // Main
 console.log('🟢 Newsletter Scheduler started... Press CTRL + C to stop.');
 cron.schedule('* * * * *', checkAndSendNewsletters);
-
-// Functions
-async function getPendingNewsletters() {
-    const currentISO = new Date().toISOString();
-    const { data, error } = await supabase
-        .from('subscribers')
-        .select('id, user_email, next_newsletter, periodicity')
-        .lte('next_newsletter', currentISO);
-
-    if (error) {
-        console.error('❌ Error fetching pending newsletters:', error);
-        return [];
-    }
-    return data;
-}
-
-async function updateNextNewsletter(userId: number, periodicity: number) {
-    const newNewsletterTimestampSeconds =
-        Math.floor(Date.now() / 1000) + periodicity;
-    const newNewsletterISO = new Date(
-        newNewsletterTimestampSeconds * 1000
-    ).toISOString();
-
-    const { error } = await supabase
-        .from('subscribers')
-        .update({ next_newsletter: newNewsletterISO })
-        .eq('id', userId);
-
-    if (error) {
-        console.error(
-            `❌ Error updating next newsletter for user ID ${userId}:`,
-            error
-        );
-    } else if (loggingActivated) {
-        console.log(
-            `📅 Next newsletter for user ID ${userId} scheduled at ${newNewsletterISO}`
-        );
-    }
-}
-
-async function sendNewsletter(userEmail: string) {
-    if (loggingActivated)
-        console.log(`📤 Sending newsletter to ${userEmail}...`);
-
-    const themes = await getColumn(userEmail, ColumnName.THEMES);
-    const sources = await getColumn(userEmail, ColumnName.SOURCES);
-
-    runNewsletter(userEmail, sources, themes);
-}
 
 async function checkAndSendNewsletters() {
     if (loggingActivated)
@@ -91,7 +37,7 @@ async function checkAndSendNewsletters() {
         );
 
         if (newsletterTimestamp <= nowSeconds) {
-            sendNewsletter(user_email);
+            sendNewsletterWithEmail(user_email);
             await updateNextNewsletter(id, periodicity);
         }
     }

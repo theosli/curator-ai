@@ -1,3 +1,3 @@
-import { runNewsletter } from './../newsletterScript';
+import { runNewsletter, runNewsletterWithEmail } from './../newsletterScript';
 
-runNewsletter('test@mail.net', [], []);
+runNewsletterWithEmail('test@mail.net', [], []);

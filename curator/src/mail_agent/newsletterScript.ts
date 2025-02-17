@@ -16,15 +16,21 @@ const defaultInterests = ['react', 'ai'];
 // Calls the curateAndGenerateNewsletter function with right parameters then sends the mail
 // TODO : Add all the dynamic part (newsletter parameters, email params)
 
-export async function runNewsletter(
-    email: string,
-    links: string[],
-    interests: string[]
-) {
+export async function runNewsletter(links: string[], interests: string[]) {
     const { markdown, html } = await curateAndGenerateNewsletter(
         links.length > 0 ? links : defaultLinks,
         interests.length > 0 ? interests : defaultInterests
     );
+
+    return { markdown, html };
+}
+
+export async function runNewsletterWithEmail(
+    email: string,
+    links: string[],
+    interests: string[]
+) {
+    const { markdown, html } = await runNewsletter(links, interests);
     if (!process.env.POSTMARK_API_KEY || !process.env.DEFAULT_POSTMARK_MAIL) {
         throw new Error(
             'Make sure to define POSTMARK_SERVER_API_KEY and POSTMARK_DEFAULT_MAIL if you want to send mail'
