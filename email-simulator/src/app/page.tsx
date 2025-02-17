@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { buildResponse } from 'conversational_agent/src/sendEmail';
 import { MailBody } from 'conversational_agent/src/types';
+import { Textarea } from '@/components/ui/textarea';
 
 type Message = {
     sender: 'user' | 'system';
@@ -56,19 +57,19 @@ export default function EmailSimulator() {
                     >
                         <span
                             className={`inline-block p-2 rounded-lg ${message.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
-                        >
-                            {message.content}
-                        </span>
+                        
+                            dangerouslySetInnerHTML={{ __html: message.content.replace(/\n/g, '<br />') }}
+                            ></span>
                     </div>
                 ))}
             </div>
             <form onSubmit={handleSubmit} className="flex gap-2">
-                <Input
-                    type="text"
+            <Textarea
                     value={userMessage}
                     onChange={e => setUserMessage(e.target.value)}
                     placeholder="Type your message here"
                     className="flex-grow"
+                    rows={4} // You can adjust this for the height you prefer
                 />
                 <Button type="submit">Send</Button>
             </form>
