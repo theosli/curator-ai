@@ -1,4 +1,5 @@
-import { exec } from 'child_process';
+'use server';
+
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import cron from 'node-cron';

@@ -1,3 +1,5 @@
+'use server';
+
 import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import dotenv from 'dotenv';

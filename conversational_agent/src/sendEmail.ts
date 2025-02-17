@@ -1,3 +1,5 @@
+'use server';
+
 import dotenv from 'dotenv';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';

@@ -1,4 +1,3 @@
-'use-server';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import _ from 'lodash';
