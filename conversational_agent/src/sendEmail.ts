@@ -5,7 +5,7 @@ import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 import { ServerClient } from 'postmark';
 import { MailBody } from './types';
-import { getAiResponseMail } from './switchActions';
+import { getAiResponseMail } from './scrapper/switchActions';
 
 // Load environment variables from the .env file
 dotenv.config({ path: './../.env' });

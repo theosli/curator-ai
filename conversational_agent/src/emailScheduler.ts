@@ -6,7 +6,7 @@ import {
     getPendingNewsletters,
     sendNewsletterWithEmail,
     updateNextNewsletter,
-} from './newsletterMaker';
+} from './newsletter/newsletterMaker';
 
 dotenv.config({ path: './../.env' });
 

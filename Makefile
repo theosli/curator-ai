@@ -70,4 +70,4 @@ start_newsletter:
 	npx ts-node conversational_agent/src/emailScheduler.ts
 
 demo : start_supabase
-	npm --workspace email-simulator run dev
+	npm --workspace demo-webpage run dev

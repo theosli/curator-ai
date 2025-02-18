@@ -1,7 +1,7 @@
-import { curate } from '../curate';
+import { curate } from 'curator-ai/src/curate';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
-import { Summary } from '../types';
+import { Summary } from 'curator-ai/src/types';
 
 const window = new JSDOM('').window;
 const purify = DOMPurify(window);

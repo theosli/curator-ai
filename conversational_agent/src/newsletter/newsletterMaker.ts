@@ -3,8 +3,8 @@
 import {
     runNewsletter,
     runNewsletterWithEmail,
-} from 'curator-ai/src/mail_agent/newsletterScript';
-import { ColumnName, getColumn } from './supabaseService';
+} from './newsletterScript';
+import { ColumnName, getColumn } from '../supabaseService';
 import { createClient } from '@supabase/supabase-js';
 
 const loggingActivated = true;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { sendNewsletter } from 'conversational_agent/src/newsletterMaker';
+import { sendNewsletter } from 'conversational_agent/src/newsletter/newsletterMaker';
 
 // Example Newsletter component (you can customize it with your custom function)
 const NewsletterExample = () => {
