@@ -1,0 +1,17 @@
+{
+    "name": "services",
+    "version": "1.0.0",
+    "description": "",
+    "main": "",
+    "scripts": {
+        "build": "npx tsc"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@supabase/supabase-js": "^2.48.1",
+        "lodash": "^4.17.21",
+        "postmark": "^4.0.5",
+        "supabase": "^2.12.1"
+    }
+}

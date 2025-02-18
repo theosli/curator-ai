@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import dotenv from 'dotenv';
 import { OpenAI } from 'openai';
-import { addPreferences } from '../supabaseService';
+import { addPreferences } from 'services/src/supabaseService';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 

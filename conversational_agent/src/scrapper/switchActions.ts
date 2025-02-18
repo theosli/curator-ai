@@ -5,7 +5,7 @@ import { zodResponseFormat } from 'openai/helpers/zod';
 import dotenv from 'dotenv';
 import { OpenAI } from 'openai';
 import { getUserPreferences } from './getUserPreferences';
-import { getColumn, ColumnName } from '../supabaseService';
+import { getColumn, ColumnName } from 'services/src/supabaseService';
 
 dotenv.config({ path: './../.env' });
 

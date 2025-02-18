@@ -4,7 +4,8 @@
         "website",
         "conversational_agent",
         "curator-ai",
-        "demo-webpage"
+        "demo-webpage",
+        "services"
     ],
     "scripts": {
         "build": "npm run build --workspaces",
@@ -18,10 +19,11 @@
         "conversational_agent": "^1.0.0",
         "curator-ai": "^0.0.6",
         "dompurify": "^3.2.4",
+        "dotenv": "^16.4.7",
         "jsdom": "^26.0.0",
         "ngrok": "^5.0.0-beta.2",
         "postmark": "^4.0.5",
-        "supabase": "^2.6.8",
+        "services": "^1.0.0",
         "ts-node": "^10.9.2"
     }
 }

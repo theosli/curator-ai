@@ -3,10 +3,10 @@
 import dotenv from 'dotenv';
 import cron from 'node-cron';
 import {
-    getPendingNewsletters,
     sendNewsletterWithEmail,
-    updateNextNewsletter,
+    setNextNewsletter,
 } from './newsletter/newsletterMaker';
+import { getPendingNewsletters } from 'services/src/supabaseService';
 
 dotenv.config({ path: './../.env' });
 
@@ -31,14 +31,14 @@ async function checkAndSendNewsletters() {
 
     const nowSeconds = Math.floor(Date.now() / 1000);
     for (const subscriber of pendingNewsletters) {
-        const { id, user_email, next_newsletter, periodicity } = subscriber;
+        const { user_email, next_newsletter, periodicity } = subscriber;
         const newsletterTimestamp = Math.floor(
             new Date(next_newsletter).getTime() / 1000
         );
 
         if (newsletterTimestamp <= nowSeconds) {
             sendNewsletterWithEmail(user_email);
-            await updateNextNewsletter(id, periodicity);
+            await setNextNewsletter(user_email, periodicity);
         }
     }
 }

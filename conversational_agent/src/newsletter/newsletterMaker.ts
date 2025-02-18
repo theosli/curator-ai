@@ -4,35 +4,12 @@ import {
     runNewsletter,
     runNewsletterWithEmail,
 } from './newsletterScript';
-import { ColumnName, getColumn } from '../supabaseService';
-import { createClient } from '@supabase/supabase-js';
+import { ColumnName, getColumn, updateNextNewsletter } from 'services/src/supabaseService';
 
 const loggingActivated = true;
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('❌ Missing Supabase credentials.');
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-export async function getPendingNewsletters() {
-    const currentISO = new Date().toISOString();
-    const { data, error } = await supabase
-        .from('subscribers')
-        .select('id, user_email, next_newsletter, periodicity')
-        .lte('next_newsletter', currentISO);
-
-    if (error) {
-        console.error('❌ Error fetching pending newsletters:', error);
-        return [];
-    }
-    return data;
-}
-
-export async function updateNextNewsletter(
-    userId: number,
+export async function setNextNewsletter(
+    email: string,
     periodicity: number
 ) {
     const newNewsletterTimestampSeconds =
@@ -41,19 +18,9 @@ export async function updateNextNewsletter(
         newNewsletterTimestampSeconds * 1000
     ).toISOString();
 
-    const { error } = await supabase
-        .from('subscribers')
-        .update({ next_newsletter: newNewsletterISO })
-        .eq('id', userId);
-
-    if (error) {
-        console.error(
-            `❌ Error updating next newsletter for user ID ${userId}:`,
-            error
-        );
-    } else if (loggingActivated) {
+    if (await updateNextNewsletter(email, newNewsletterISO) && loggingActivated) {
         console.log(
-            `📅 Next newsletter for user ID ${userId} scheduled at ${newNewsletterISO}`
+            `📅 Next newsletter for user ${email} scheduled at ${newNewsletterISO}`
         );
     }
 }
