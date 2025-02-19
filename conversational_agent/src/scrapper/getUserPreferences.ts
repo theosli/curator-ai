@@ -2,17 +2,10 @@
 
 import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
-import dotenv from 'dotenv';
-import { OpenAI } from 'openai';
 import { addPreferences } from 'services/src/supabaseService';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
-
-dotenv.config({ path: './../.env' });
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY || '',
-});
+import { extract } from 'services/src/openaiService';
 
 const PreferenceExtraction = z.object({
     themes: z.array(z.string()),
@@ -25,9 +18,12 @@ export async function getUserPreferences(
     userMail: string,
     userMessage: string
 ): Promise<string | null> {
-    const completion = await openai.beta.chat.completions.parse({
-        model: 'gpt-4o-mini',
-        messages: [
+    const completion = await extract<{
+        choices: {
+            message: { parsed: z.infer<typeof PreferenceExtraction> };
+        }[];
+    }>(
+        [
             {
                 role: 'system',
                 content: `You are an expert at structured data extraction. You will be given unstructured text from a user email and should convert it into the given structure.
@@ -46,13 +42,11 @@ Ensure no duplicate entries in either "sources" or "unwanted_sources".
             },
             { role: 'user', content: userMessage },
         ],
-        response_format: zodResponseFormat(
-            PreferenceExtraction,
-            'preference_extraction'
-        ),
-    });
+        zodResponseFormat(PreferenceExtraction, 'preference_extraction')
+    );
 
-    const preferencesCompletion = completion.choices[0].message.parsed;
+    const preferencesCompletion = completion.choices[0].message
+        .parsed as z.infer<typeof PreferenceExtraction>;
 
     await addPreferences(
         preferencesCompletion?.themes || [],
