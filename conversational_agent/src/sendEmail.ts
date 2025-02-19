@@ -1,33 +1,30 @@
 'use server';
 
-import dotenv from 'dotenv';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
-import { ServerClient } from 'postmark';
 import { MailBody } from './types';
 import { getAiResponseMail } from './scrapper/switchActions';
-
-// Load environment variables from the .env file
-dotenv.config({ path: './../.env' });
+import { sendEmail } from 'services/src/postmarkService';
 
 export const sendMail = async (body: MailBody) => {
-    // Use the Postmark API key from environment variables
-    const client = new ServerClient(process.env.POSTMARK_API_KEY || '');
-    try {
-        const formattedBody = await buildResponse(body);
-        // Send an email
-        const result = await client.sendEmail({
-            From: process.env.DEFAULT_POSTMARK_MAIL || '', // Replace with a verified email
-            To: body['From'],
-            Subject: 'Re: ' + body['Subject'],
-            ReplyTo: body['To'],
-            HtmlBody: formatHtmlBody(formattedBody),
-            TextBody: formatTextBody(formattedBody),
-            MessageStream: 'outbound',
-        });
-        console.error('E-Mail sent successfully : ', result);
-    } catch (error) {
-        console.error('Error when trying to send the E-Mail :', error);
+    const formattedBody = await buildResponse(body);
+    // Send an email
+    const result = await sendEmail(
+        {
+            to: body['From'],
+            subject: 'Re: ' + body['Subject'],
+            replyTo: body['To'],
+            htmlBody: formatHtmlBody(formattedBody),
+            textBody: formatTextBody(formattedBody),
+            messageStream: 'outbound',
+        },
+        true
+    );
+
+    if (result.hasError) {
+        console.error('Error when trying to send the E-Mail :', result.message);
+    } else {
+        console.log('E-Mail sent successfully : ', result);
     }
 };
 

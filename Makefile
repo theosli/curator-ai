@@ -12,14 +12,14 @@ endif
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-init: install migrate_supabase build ## Initialize the project
+init: install build ## Initialize the project
 
 install: ## Install the dependencies
 	npm install
 
 webpage: build_webpage run_webpage ## Build and run the webpage localy
 
-build_webpage: start_supabase ## Build the webpage
+build_webpage: ## Build the webpage
 	rm -rf website/.next
 	npm --workspace website run build
 
@@ -32,7 +32,7 @@ send_newsletter: ## Send newsletter mail
 print_newsletter: ## Send newsletter mail
 	npm --workspace curator-ai run print_newsletter
 	
-build: start_supabase ## Compile the project
+build: migrate_supabase ## Compile the project
 	npm run build
 	npm run format
 
@@ -42,10 +42,10 @@ run: ## Summarize a list of articles
 dev: ## Run the CLI in development mode
 	npm --workspace website run dev
 
-conv_agent: start_supabase ## Test the conversational agent with mail
+conv_agent: ## Test the conversational agent with mail
 	npm --workspace conversational_agent run start
 
-conv_agent_test: start_supabase ## Test the conversational agent
+conv_agent_test: ## Test the conversational agent
 	npm --workspace conversational_agent run test
 
 clean: stop_supabase ## To clean the project
@@ -57,7 +57,7 @@ start_ngrok:
 	@echo "Starting ngrok on port 3001"
 	npx ngrok http 3001
 
-migrate_supabase:
+migrate_supabase: start_supabase
 	npx supabase db reset
 
 start_supabase:

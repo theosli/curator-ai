@@ -1,11 +1,10 @@
 'use server';
 
 import { validateEmail } from '@/utils/validateEmail';
-import dotenv from 'dotenv';
-import { insertEmail, isEmailAlreadyRegistred } from 'services/src/supabaseService'
-
-// Load environment variables from the .env file
-dotenv.config({ path: './../.env' });
+import {
+  insertEmail,
+  isEmailAlreadyRegistred,
+} from 'services/src/supabaseService';
 
 /**
  * Handles the logic for subscribing an email, including validation.
@@ -18,11 +17,11 @@ export async function handleSubscription(
     return { message: `Invalid email address.`, hasError: true };
   }
 
-    let res = await isEmailAlreadyRegistred(email);
+  let res = await isEmailAlreadyRegistred(email);
 
-    if (res.hasError) {
-      return res;
-    }
+  if (res.hasError) {
+    return res;
+  }
 
   return insertEmail(email);
 }

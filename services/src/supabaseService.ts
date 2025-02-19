@@ -12,7 +12,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export enum ColumnName {
     ID = 'id',
-    USER_EMAIL = "user_email",
+    USER_EMAIL = 'user_email',
     THEMES = 'themes',
     UNWANTED_THEMES = 'unwanted_themes',
     SOURCES = 'sources',
@@ -31,7 +31,7 @@ export const getColumn = async (mail: string, columnName: ColumnName) => {
         .single();
 
     if (error) {
-        console.error(`Error retrieving ${columnName}: ${error.message}`);      
+        console.error(`Error retrieving ${columnName}: ${error.message}`);
     }
 
     return (data as Record<ColumnName, string[]>)[columnName] || [];
@@ -88,20 +88,20 @@ export const addPreferences = async (
 export const isEmailAlreadyRegistred = async (email: String) => {
     try {
         const { data: existingEmail, error: selectError } = await supabase
-          .from('subscribers')
-          .select('user_email')
-          .eq('user_email', email)
-          .single();
-    
+            .from('subscribers')
+            .select('user_email')
+            .eq('user_email', email)
+            .single();
+
         if (selectError && selectError.code !== 'PGRST116') {
-          return {
-            message: `Error verifying email ${selectError.code}: ${selectError.message}`,
-            hasError: true,
-          };
+            return {
+                message: `Error verifying email ${selectError.code}: ${selectError.message}`,
+                hasError: true,
+            };
         }
-    
+
         if (existingEmail) {
-          return { message: `Email already registered.`, hasError: true };
+            return { message: `Email already registered.`, hasError: true };
         }
 
         return { message: ``, hasError: false };
@@ -114,29 +114,29 @@ export const isEmailAlreadyRegistred = async (email: String) => {
 export const insertEmail = async (email: String) => {
     try {
         const { error: insertError } = await supabase
-        .from('subscribers')
-        .insert([{ user_email: email }]);
+            .from('subscribers')
+            .insert([{ user_email: email }]);
 
         if (insertError) {
-        console.error(`Error inserting email: ${insertError.message}`);
-        return {
-            message: `Error inserting email: ${insertError.message}`,
-            hasError: true,
-        };
+            console.error(`Error inserting email: ${insertError.message}`);
+            return {
+                message: `Error inserting email: ${insertError.message}`,
+                hasError: true,
+            };
         }
 
         return { message: `Email successfully registered.`, hasError: false };
     } catch (error) {
         console.error('Unexpected error:', error);
         return { message: `Unexpected error occured`, hasError: true };
-  }
+    }
 };
 
 export const updateNextNewsletter = async (email: string, newDate: string) => {
     const { error } = await supabase
         .from('subscribers')
         .update({ next_newsletter: newDate })
-        .eq('user_email', email)
+        .eq('user_email', email);
 
     if (error) {
         console.error(

@@ -1,14 +1,11 @@
 'use server';
 
-import dotenv from 'dotenv';
 import cron from 'node-cron';
 import {
     sendNewsletterWithEmail,
     setNextNewsletter,
 } from './newsletter/newsletterMaker';
 import { getPendingNewsletters } from 'services/src/supabaseService';
-
-dotenv.config({ path: './../.env' });
 
 const loggingActivated = true;
 

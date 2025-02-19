@@ -1,24 +1,25 @@
 'use server';
 
+import { runNewsletter, runNewsletterWithEmail } from './newsletterScript';
 import {
-    runNewsletter,
-    runNewsletterWithEmail,
-} from './newsletterScript';
-import { ColumnName, getColumn, updateNextNewsletter } from 'services/src/supabaseService';
+    ColumnName,
+    getColumn,
+    updateNextNewsletter,
+} from 'services/src/supabaseService';
 
 const loggingActivated = true;
 
-export async function setNextNewsletter(
-    email: string,
-    periodicity: number
-) {
+export async function setNextNewsletter(email: string, periodicity: number) {
     const newNewsletterTimestampSeconds =
         Math.floor(Date.now() / 1000) + periodicity;
     const newNewsletterISO = new Date(
         newNewsletterTimestampSeconds * 1000
     ).toISOString();
 
-    if (await updateNextNewsletter(email, newNewsletterISO) && loggingActivated) {
+    if (
+        (await updateNextNewsletter(email, newNewsletterISO)) &&
+        loggingActivated
+    ) {
         console.log(
             `📅 Next newsletter for user ${email} scheduled at ${newNewsletterISO}`
         );

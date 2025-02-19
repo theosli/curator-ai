@@ -1,8 +1,5 @@
+import { sendEmail } from 'services/src/postmarkService';
 import { curateAndGenerateNewsletter } from './newsletterFormat';
-import dotenv from 'dotenv';
-import { ServerClient } from 'postmark';
-
-dotenv.config({ path: './../.env' });
 
 const defaultLinks = [
     'https://www.fromjason.xyz/p/notebook/where-have-all-the-websites-gone/',
@@ -31,25 +28,17 @@ export async function runNewsletterWithEmail(
     interests: string[]
 ) {
     const { markdown, html } = await runNewsletter(links, interests);
-    if (!process.env.POSTMARK_API_KEY || !process.env.DEFAULT_POSTMARK_MAIL) {
-        throw new Error(
-            'Make sure to define POSTMARK_SERVER_API_KEY and POSTMARK_DEFAULT_MAIL if you want to send mail'
-        );
-    }
 
-    // Sending email :
-    const client = new ServerClient(process.env.POSTMARK_API_KEY as string);
-    const defaultInboundEmail = process.env.INBOUND_POSTMARK_MAIL!;
-
-    client.sendEmail({
-        From: process.env.DEFAULT_POSTMARK_MAIL,
-        To: email,
-        Subject: 'Your weekly newsletter',
-        ReplyTo: defaultInboundEmail,
-        HtmlBody: html,
-        TextBody: markdown,
-        MessageStream: 'outbound',
-    });
+    sendEmail(
+        {
+            to: email,
+            subject: 'Your weekly newsletter',
+            htmlBody: html,
+            textBody: markdown,
+            messageStream: 'outbound',
+        },
+        true
+    );
 
     console.log('Newsletter email sent');
 }

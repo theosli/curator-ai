@@ -22,7 +22,6 @@
         "dotenv": "^16.4.7",
         "jsdom": "^26.0.0",
         "ngrok": "^5.0.0-beta.2",
-        "postmark": "^4.0.5",
         "services": "^1.0.0",
         "ts-node": "^10.9.2"
     }
