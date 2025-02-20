@@ -3,7 +3,7 @@
     "workspaces": [
         "website",
         "conversational_agent",
-        "curator-ai",
+        "curator",
         "demo-webpage",
         "services"
     ],

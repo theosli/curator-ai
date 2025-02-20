@@ -10,6 +10,7 @@
     "license": "ISC",
     "dependencies": {
         "@supabase/supabase-js": "^2.48.1",
+        "dotenv": "^16.4.7",
         "lodash": "^4.17.21",
         "openai": "^4.85.2",
         "postmark": "^4.0.5",

@@ -18,7 +18,7 @@ After cloning the repository, you can copy the `.env.sample` file as `.env`, and
 - `SUPABASE_URL`: the url of your Supabase DB.
 - `SUPABASE_ANON_KEY`: the anon key of your Supabase BD.
 - `POSTMARK_API_KEY`: your Postmark API key.
-- `DEFAULT_POSTMARK_MAIL`: the default email you are using to communicate with the service.
+- `DEFAULT_POSTMARK_MAIL`: the default email you are using to communicate with the service. This should be in your `Sender Signatures` in your [Postmark](https://postmarkapp.com/) server.
 - `NGROK_AUTH_TOKEN`: your Ngrok auth token.
 
 Then run the following command :
@@ -28,6 +28,14 @@ make init
 ```
 
 It will install every dependencies, build the project and migrate the db.
+
+## Start the demo
+
+If you want to test the service without the mails:
+
+```sh
+make demo
+```
 
 ## Start the webpage
 
@@ -91,6 +99,42 @@ make start_newsletter
 ```
 
 This will test each minutes if someone need to recieve his next newsletter. If yes, a newsletter is sent.
+
+## Summary of what you have to start to have the full service:
+
+```sh
+make init
+```
+
+Run the webpage:
+
+```sh
+make webpage
+```
+
+Open a new terminal.
+Run the conversational agent :
+
+```sh
+make conv_agent
+```
+
+Open a new terminal.
+Expose the agent online for postmark :
+
+```sh
+make start_ngrok
+```
+
+Copy your `<YOUR_WEBHOOK_URI>`, and add it to your [Postmark](https://postmarkapp.com/) server :
+In the settings of your Inbound Stream, write `<YOUR_WEBHOOK_URI>/webhook` in the Webhook section.
+
+Open a new terminal.
+Start the newsletter scheduler :
+
+```sh
+make start_newsletter
+```
 
 ## CLI Usage
 

@@ -1,5 +1,3 @@
-// src/utils/validateEmail.ts
-
 /**
  * Validates if the given string is a valid email address.
  * @param email - The email string to validate.
